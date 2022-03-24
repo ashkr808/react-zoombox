@@ -2,7 +2,8 @@
   "name": "zoombox",
   "version": "1.0.1",
   "description": "An interactive image viewer library for react.",
-  "main": "index.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,6 +37,8 @@
     "react-dom": "^17.0.2",
     "node-sass": "^7.0.1",
     "typescript": "^4.6.2",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.3"
   }
 }
