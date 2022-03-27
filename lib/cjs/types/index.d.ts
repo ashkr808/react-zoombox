@@ -1,5 +1,5 @@
 export declare type Image = {
-    url: string;
+    src: string;
     caption?: string;
 };
 export declare type Images = Image[];

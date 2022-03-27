@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Image, Images } from "../types";
 
 type ZoomboxFooterProps = {
@@ -14,6 +14,9 @@ const ZoomBoxFooter = (props: ZoomboxFooterProps) => {
     setTranslateX(-80 * index);
     setSelectedImage(index);
   };
+  useEffect(() => {
+    setTranslateX(-80 * selectedImage);
+  }, [selectedImage]);
   return (
     <div className="footer">
       <div
@@ -22,10 +25,11 @@ const ZoomBoxFooter = (props: ZoomboxFooterProps) => {
       >
         {images.map((image: Image, index: number) => (
           <img
+            key={index}
             alt={image.caption}
-            src={image.url}
+            src={image.src}
             onClick={() => handleImageClick(index)}
-            style={{ opacity: selectedImage === index ? 1 : 0.5 }}
+            className={selectedImage === index ? "activeImage" : ""}
           />
         ))}
       </div>
