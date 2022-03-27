@@ -10,7 +10,7 @@
     "start": "rollup -c -w"
   },
   "files": [
-    "dist"
+    "lib"
   ],
   "repository": {
     "type": "git",
