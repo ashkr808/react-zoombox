@@ -2,8 +2,8 @@
   "name": "zoombox",
   "version": "1.0.7",
   "description": "An interactive image viewer library for react.",
-  "main": "lib/esm/index.js",
-  "module": "lib/cjs/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "types": "lib/esm/index.d.ts",
   "scripts": {
     "build": "rollup -c",
