@@ -1,43 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { ZoomboxCaption } from "./components/ZoomboxCaption";
-import ZoomBoxFooter from "./components/ZoomBoxFooter";
-import ZoomboxHeader from "./components/ZoomboxHeader";
-import "./scss/zoombox.scss";
-import { Images } from "./types";
+import React from 'react';
+import { ZoomboxCaption } from './components/ZoomboxCaption';
+import ZoomBoxFooter from './components/ZoomBoxFooter';
+import ZoomboxHeader from './components/ZoomboxHeader';
+import { ZoomboxImage } from './components/ZoomboxImage';
+import { ZoomboxMask } from './components/ZoomboxMask';
+import { useKeyboard, useNavigation } from './hooks';
+import './scss/zoombox.scss';
+import { Images } from './types';
 
 type ZoomboxProps = {
   images: Images;
   active: boolean;
   setActive?: React.Dispatch<React.SetStateAction<boolean>>;
   selectedImage?: number;
+  zIndex?: number;
+  enableKeyboadNavigation?: boolean;
+  maskClosable?: boolean;
 };
 
 const Zoombox = (props: ZoomboxProps) => {
-  const { images, active, setActive, selectedImage: selectedIndex } = props;
-  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const {
+    images,
+    active,
+    setActive,
+    selectedImage: selectedIndex = 0,
+    zIndex = 10000,
+    enableKeyboadNavigation = false,
+    maskClosable = true
+  } = props;
+  const { selectedImage, setSelectedImage, nextPrevImage } = useNavigation(images, selectedIndex);
+  useKeyboard(enableKeyboadNavigation, active, nextPrevImage);
   const handleClose = () => {
     setActive && setActive(false);
   };
-  useEffect(() => {
-    if (selectedIndex) {
-      setSelectedImage(selectedIndex);
-    }
-  }, [selectedIndex]);
-  return (
-    <div
-      className="zoombox"
-      style={{ display: `${active ? "block" : "none"}` }}
-    >
-      <div onClick={handleClose} className="closeOverlay"></div>
+
+  return active ? (
+    <div className="zoombox" style={{ zIndex: zIndex }}>
+      <ZoomboxMask onClick={() => maskClosable && handleClose()} />
       <ZoomboxHeader />
-      <div className="imageContainer">
-        <img src={images[selectedImage].src} alt="" />
-      </div>
-      <ZoomboxCaption text={images[selectedImage].caption} />
-      <ZoomBoxFooter {...{ images, setSelectedImage, selectedImage }} />
+      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} />
+      <ZoomboxCaption text={selectedImage.caption} />
+      <ZoomBoxFooter {...{ images, setSelectedImage, selectedImage, selectedIndex }} />
       <div className="test"></div>
     </div>
-  );
+  ) : null;
 };
 
 export default Zoombox;
