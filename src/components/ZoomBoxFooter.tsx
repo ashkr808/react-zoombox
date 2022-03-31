@@ -16,7 +16,7 @@ const ZoomBoxFooter = (props: ZoomboxFooterProps) => {
     setSelectedImage(image);
   };
   useEffect(() => {
-    console.log(selectedImageIndex, selectedImage);
+    // console.log(selectedImageIndex, selectedImage);
     setTranslateX(-(heightWidthOfPreviewImage + 10) * selectedImageIndex);
     return () => {
       console.log('removed');
