@@ -1,6 +1,7 @@
+@import './variables.scss';
 .zoombox {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
   position: fixed;
   left: 0;
   right: 0;
@@ -68,6 +69,28 @@
   font-size: 20px;
   width: fit-content;
   text-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.5);
+}
+
+.ZoomboxControls {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  padding: 10px;
+  cursor: pointer;
+  svg {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
+
+.ZoomboxLeftIcon {
+  left: $leftRightMarginForIcons;
+  bottom: 5px;
+}
+.ZoomboxRightIcon {
+  right: $leftRightMarginForIcons;
+  bottom: 5px;
 }
 
 .test {

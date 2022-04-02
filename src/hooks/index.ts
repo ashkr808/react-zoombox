@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Image, Images } from '../types';
 
 export const useKeyboard = (
@@ -28,9 +28,13 @@ export const useKeyboard = (
 
 export const useNavigation = (images: Images, selectedIndex: number) => {
   const [selectedImage, setSelectedImage] = useState<Image>(images[selectedIndex]);
+  const [translateX, setTranslateX] = useState(0);
+  const selectedImageIndex = useMemo(() => images.indexOf(selectedImage), [selectedImage]);
+
   useEffect(() => {
     setSelectedImage(images[selectedIndex]);
   }, [selectedIndex]);
+
   const nextPrevImage = (move: number = 1 | -1) => {
     const selectedIndex = images.indexOf(selectedImage);
     const prevIndex = selectedIndex - 1;
@@ -39,9 +43,13 @@ export const useNavigation = (images: Images, selectedIndex: number) => {
       move === -1 ? (prevIndex >= 0 ? prevIndex : images.length - 1) : nextIndex < images.length ? nextIndex : 0;
     setSelectedImage(images[moveToIndex]);
   };
+
   return {
     selectedImage,
     setSelectedImage,
-    nextPrevImage
+    nextPrevImage,
+    translateX,
+    setTranslateX,
+    selectedImageIndex
   };
 };

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { heightWidthOfPreviewImage } from '../constants';
 import { Image, Images } from '../types';
 
@@ -6,21 +6,20 @@ type ZoomboxFooterProps = {
   images: Images;
   setSelectedImage: Dispatch<SetStateAction<Image>>;
   selectedImage: Image;
+  translateX: number;
+  setTranslateX: Dispatch<SetStateAction<number>>;
+  selectedImageIndex: number;
 };
 
 const ZoomBoxFooter = (props: ZoomboxFooterProps) => {
-  const [translateX, setTranslateX] = useState(0);
-  const { images, selectedImage, setSelectedImage } = props;
-  const selectedImageIndex = useMemo(() => images.indexOf(selectedImage), [selectedImage]);
+  const { images, selectedImage, setSelectedImage, translateX, setTranslateX, selectedImageIndex } = props;
   const handleImageClick = (image: Image) => {
     setSelectedImage(image);
   };
   useEffect(() => {
-    // console.log(selectedImageIndex, selectedImage);
-    setTranslateX(-(heightWidthOfPreviewImage + 10) * selectedImageIndex);
-    return () => {
-      console.log('removed');
-    };
+    if (selectedImageIndex >= 0) {
+      setTranslateX(-(heightWidthOfPreviewImage + 10) * selectedImageIndex);
+    }
   }, [selectedImage, selectedImageIndex]);
   return (
     <div

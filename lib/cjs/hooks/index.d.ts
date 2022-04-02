@@ -5,4 +5,7 @@ export declare const useNavigation: (images: Images, selectedIndex: number) => {
     selectedImage: Image;
     setSelectedImage: import("react").Dispatch<import("react").SetStateAction<Image>>;
     nextPrevImage: (move?: number) => void;
+    translateX: number;
+    setTranslateX: import("react").Dispatch<import("react").SetStateAction<number>>;
+    selectedImageIndex: number;
 };

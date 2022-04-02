@@ -1,5 +1,6 @@
 import React from 'react';
 import { ZoomboxCaption } from './components/ZoomboxCaption';
+import { ZoomboxControls } from './components/ZoomboxControls';
 import ZoomBoxFooter from './components/ZoomBoxFooter';
 import ZoomboxHeader from './components/ZoomboxHeader';
 import { ZoomboxImage } from './components/ZoomboxImage';
@@ -28,7 +29,8 @@ const Zoombox = (props: ZoomboxProps) => {
     enableKeyboadNavigation = false,
     maskClosable = true
   } = props;
-  const { selectedImage, setSelectedImage, nextPrevImage } = useNavigation(images, selectedIndex);
+  const { selectedImage, setSelectedImage, nextPrevImage, setTranslateX, translateX, selectedImageIndex } =
+    useNavigation(images, selectedIndex);
   useKeyboard(enableKeyboadNavigation, active, nextPrevImage);
   const handleClose = () => {
     setActive && setActive(false);
@@ -40,7 +42,10 @@ const Zoombox = (props: ZoomboxProps) => {
       <ZoomboxHeader />
       <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} />
       <ZoomboxCaption text={selectedImage.caption} />
-      <ZoomBoxFooter {...{ images, setSelectedImage, selectedImage, selectedIndex }} />
+      <ZoomBoxFooter
+        {...{ images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }}
+      />
+      <ZoomboxControls {...{ nextPrevImage }} />
       <div className="test"></div>
     </div>
   ) : null;
