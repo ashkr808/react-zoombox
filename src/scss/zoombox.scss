@@ -28,6 +28,7 @@
   width: fit-content;
   left: 0;
   right: 0;
+  transition: 0.3s;
   img {
     height: 100%;
     width: 100%;
@@ -92,7 +93,14 @@
   right: $leftRightMarginForIcons;
   bottom: 5px;
 }
-
+.ZoomboxZoomInIcon {
+  right: $leftRightMarginForIcons;
+  bottom: 160px;
+}
+.ZoomboxZoomOutIcon {
+  right: $leftRightMarginForIcons;
+  bottom: 100px;
+}
 .test {
   position: absolute;
   left: 50%;

@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
+import { DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from '../constants';
 import { Image, Images } from '../types';
 
 export const useKeyboard = (
+  zoomboxElement: React.MutableRefObject<null> | any,
   enableKeyboardNavigation: boolean,
   isActive: boolean,
-  nextPrevImage: (move: 1 | -1) => void
+  nextPrevImage: (move: 1 | -1) => void,
+  setZoomValue: (move?: number) => void
 ) => {
   const handleKeyPress = (e: any) => {
     if (isActive) {
@@ -18,10 +21,29 @@ export const useKeyboard = (
       }
     }
   };
+
+  const handleScroll = (e: any) => {
+    const { deltaY } = e;
+    if (deltaY) {
+      setZoomValue(deltaY > 0 ? -1 : 1);
+    } else {
+      throw 'deltaY is not supported for wheelevent';
+    }
+  };
   useEffect(() => {
-    enableKeyboardNavigation && window.addEventListener('keydown', handleKeyPress);
+    if (enableKeyboardNavigation) {
+      window.addEventListener('keydown', handleKeyPress);
+      if (zoomboxElement.current) {
+        zoomboxElement.current.addEventListener('wheel', handleScroll);
+      }
+    }
     return () => {
-      enableKeyboardNavigation && window.removeEventListener('keydown', handleKeyPress);
+      if (enableKeyboardNavigation) {
+        window.removeEventListener('keydown', handleKeyPress);
+        if (zoomboxElement.current) {
+          zoomboxElement.current.removeEventListener('wheel', handleScroll);
+        }
+      }
     };
   });
 };
@@ -29,7 +51,9 @@ export const useKeyboard = (
 export const useNavigation = (images: Images, selectedIndex: number) => {
   const [selectedImage, setSelectedImage] = useState<Image>(images[selectedIndex]);
   const [translateX, setTranslateX] = useState(0);
+  const [zoom, setZoom] = useState(DEFAULT_ZOOM);
   const selectedImageIndex = useMemo(() => images.indexOf(selectedImage), [selectedImage]);
+  const zoomStep = useMemo(() => ZOOM_STEP, [ZOOM_STEP]);
 
   useEffect(() => {
     setSelectedImage(images[selectedIndex]);
@@ -39,9 +63,17 @@ export const useNavigation = (images: Images, selectedIndex: number) => {
     const selectedIndex = images.indexOf(selectedImage);
     const prevIndex = selectedIndex - 1;
     const nextIndex = selectedIndex + 1;
-    const moveToIndex =
-      move === -1 ? (prevIndex >= 0 ? prevIndex : images.length - 1) : nextIndex < images.length ? nextIndex : 0;
+    const moveToIndex = move === -1 ? (prevIndex >= 0 ? prevIndex : images.length - 1) : nextIndex < images.length ? nextIndex : 0;
     setSelectedImage(images[moveToIndex]);
+    setZoom(DEFAULT_ZOOM);
+  };
+
+  const setZoomValue = (move: number = 1 | -1) => {
+    if (move === 1) {
+      setZoom(zoom + zoomStep > MAX_ZOOM ? MAX_ZOOM : zoom + zoomStep);
+    } else {
+      setZoom(zoom - zoomStep < MIN_ZOOM ? MIN_ZOOM : zoom - zoomStep);
+    }
   };
 
   return {
@@ -50,6 +82,9 @@ export const useNavigation = (images: Images, selectedIndex: number) => {
     nextPrevImage,
     translateX,
     setTranslateX,
-    selectedImageIndex
+    selectedImageIndex,
+    zoom,
+    setZoomValue,
+    setZoom
   };
 };

@@ -7,6 +7,7 @@ declare type ZoomboxFooterProps = {
     translateX: number;
     setTranslateX: Dispatch<SetStateAction<number>>;
     selectedImageIndex: number;
+    setZoom: Dispatch<SetStateAction<number>>;
 };
 declare const ZoomBoxFooter: (props: ZoomboxFooterProps) => JSX.Element;
 export default ZoomBoxFooter;

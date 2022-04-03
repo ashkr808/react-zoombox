@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ZoomboxCaption } from './components/ZoomboxCaption';
 import { ZoomboxControls } from './components/ZoomboxControls';
 import ZoomBoxFooter from './components/ZoomBoxFooter';
@@ -20,32 +20,26 @@ type ZoomboxProps = {
 };
 
 const Zoombox = (props: ZoomboxProps) => {
-  const {
+  const { images, active, setActive, selectedImage: selectedIndex = 0, zIndex = 10000, enableKeyboadNavigation = false, maskClosable = true } = props;
+  const { selectedImage, setSelectedImage, nextPrevImage, setTranslateX, translateX, selectedImageIndex, zoom, setZoomValue, setZoom } = useNavigation(
     images,
-    active,
-    setActive,
-    selectedImage: selectedIndex = 0,
-    zIndex = 10000,
-    enableKeyboadNavigation = false,
-    maskClosable = true
-  } = props;
-  const { selectedImage, setSelectedImage, nextPrevImage, setTranslateX, translateX, selectedImageIndex } =
-    useNavigation(images, selectedIndex);
-  useKeyboard(enableKeyboadNavigation, active, nextPrevImage);
+    selectedIndex
+  );
+  const zoomboxElement = useRef(null);
+  useKeyboard(zoomboxElement, enableKeyboadNavigation, active, nextPrevImage, setZoomValue);
+
   const handleClose = () => {
     setActive && setActive(false);
   };
 
   return active ? (
-    <div className="zoombox" style={{ zIndex: zIndex }}>
+    <div ref={zoomboxElement} className="zoombox" style={{ zIndex: zIndex }}>
       <ZoomboxMask onClick={() => maskClosable && handleClose()} />
       <ZoomboxHeader />
-      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} />
+      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} zoom={zoom} />
       <ZoomboxCaption text={selectedImage.caption} />
-      <ZoomBoxFooter
-        {...{ images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }}
-      />
-      <ZoomboxControls {...{ nextPrevImage }} />
+      <ZoomBoxFooter {...{ setZoom, images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
+      <ZoomboxControls {...{ nextPrevImage, setZoomValue }} />
       <div className="test"></div>
     </div>
   ) : null;

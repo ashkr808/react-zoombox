@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { heightWidthOfPreviewImage } from '../constants';
+import { DEFAULT_ZOOM, heightWidthOfPreviewImage } from '../constants';
 import { Image, Images } from '../types';
 
 type ZoomboxFooterProps = {
@@ -9,12 +9,14 @@ type ZoomboxFooterProps = {
   translateX: number;
   setTranslateX: Dispatch<SetStateAction<number>>;
   selectedImageIndex: number;
+  setZoom: Dispatch<SetStateAction<number>>;
 };
 
 const ZoomBoxFooter = (props: ZoomboxFooterProps) => {
-  const { images, selectedImage, setSelectedImage, translateX, setTranslateX, selectedImageIndex } = props;
+  const { images, selectedImage, setSelectedImage, translateX, setTranslateX, selectedImageIndex, setZoom } = props;
   const handleImageClick = (image: Image) => {
     setSelectedImage(image);
+    setZoom(DEFAULT_ZOOM);
   };
   useEffect(() => {
     if (selectedImageIndex >= 0) {
