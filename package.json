@@ -1,6 +1,6 @@
 {
   "name": "zoombox",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "An interactive image viewer library for react.",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
