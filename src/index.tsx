@@ -5,7 +5,8 @@ import ZoomBoxFooter from './components/ZoomBoxFooter';
 import ZoomboxHeader from './components/ZoomboxHeader';
 import { ZoomboxImage } from './components/ZoomboxImage';
 import { ZoomboxMask } from './components/ZoomboxMask';
-import { useKeyboard, useNavigation } from './hooks';
+import { ZoomboxZoom } from './components/ZoomboxZoom';
+import { useKeyboardAndMouse, useNavigation } from './hooks';
 import './scss/zoombox.scss';
 import { Images } from './types';
 
@@ -26,7 +27,7 @@ const Zoombox = (props: ZoomboxProps) => {
     selectedIndex
   );
   const zoomboxElement = useRef(null);
-  useKeyboard(zoomboxElement, enableKeyboadNavigation, active, nextPrevImage, setZoomValue);
+  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboadNavigation, active, nextPrevImage, setZoomValue);
 
   const handleClose = () => {
     setActive && setActive(false);
@@ -36,11 +37,12 @@ const Zoombox = (props: ZoomboxProps) => {
     <div ref={zoomboxElement} className="zoombox" style={{ zIndex: zIndex }}>
       <ZoomboxMask onClick={() => maskClosable && handleClose()} />
       <ZoomboxHeader />
-      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} zoom={zoom} />
+      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} zoom={zoom} {...{ xPercentage, yPercentage }} />
       <ZoomboxCaption text={selectedImage.caption} />
       <ZoomBoxFooter {...{ setZoom, images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
       <ZoomboxControls {...{ nextPrevImage, setZoomValue }} />
-      <div className="test"></div>
+      <ZoomboxZoom zoom={zoom} />
+      {/* <div className="test"></div> */}
     </div>
   ) : null;
 };

@@ -2,13 +2,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from '../constants';
 import { Image, Images } from '../types';
 
-export const useKeyboard = (
+export const useKeyboardAndMouse = (
   zoomboxElement: React.MutableRefObject<null> | any,
   enableKeyboardNavigation: boolean,
   isActive: boolean,
   nextPrevImage: (move: 1 | -1) => void,
   setZoomValue: (move?: number) => void
 ) => {
+  const [xPercentage, setXPercentage] = useState('0');
+  const [yPercentage, setYPercentage] = useState('0');
   const handleKeyPress = (e: any) => {
     if (isActive) {
       switch (e.keyCode) {
@@ -18,12 +20,23 @@ export const useKeyboard = (
         case 39:
           nextPrevImage(1);
           break;
+        case 38:
+          setZoomValue(1);
+          break;
+        case 40:
+          setZoomValue(-1);
+          break;
       }
     }
   };
 
   const handleScroll = (e: any) => {
-    const { deltaY } = e;
+    const { deltaY, clientX, clientY } = e;
+    const { innerHeight, innerWidth } = window;
+    const xPercentage = ((clientX / innerWidth) * 100).toFixed(2);
+    const yPercentage = ((clientY / innerHeight) * 100).toFixed(2);
+    setXPercentage(xPercentage);
+    setYPercentage(yPercentage);
     if (deltaY) {
       setZoomValue(deltaY > 0 ? -1 : 1);
     } else {
@@ -46,6 +59,10 @@ export const useKeyboard = (
       }
     };
   });
+  return {
+    xPercentage,
+    yPercentage
+  };
 };
 
 export const useNavigation = (images: Images, selectedIndex: number) => {
