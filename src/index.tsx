@@ -18,16 +18,26 @@ type ZoomboxProps = {
   zIndex?: number;
   enableKeyboadNavigation?: boolean;
   maskClosable?: boolean;
+  enableZoom?: 0 | 1 | 2;
 };
 
 const Zoombox = (props: ZoomboxProps) => {
-  const { images, active, setActive, selectedImage: selectedIndex = 0, zIndex = 10000, enableKeyboadNavigation = false, maskClosable = true } = props;
+  const {
+    images,
+    active,
+    setActive,
+    selectedImage: selectedIndex = 0,
+    zIndex = 10000,
+    enableKeyboadNavigation = false,
+    maskClosable = true,
+    enableZoom = 0
+  } = props;
   const { selectedImage, setSelectedImage, nextPrevImage, setTranslateX, translateX, selectedImageIndex, zoom, setZoomValue, setZoom } = useNavigation(
     images,
     selectedIndex
   );
   const zoomboxElement = useRef(null);
-  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboadNavigation, active, nextPrevImage, setZoomValue);
+  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboadNavigation, active, nextPrevImage, setZoomValue, enableZoom);
 
   const handleClose = () => {
     setActive && setActive(false);
@@ -40,7 +50,7 @@ const Zoombox = (props: ZoomboxProps) => {
       <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} zoom={zoom} {...{ xPercentage, yPercentage }} />
       <ZoomboxCaption text={selectedImage.caption} />
       <ZoomBoxFooter {...{ setZoom, images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
-      <ZoomboxControls {...{ nextPrevImage, setZoomValue }} />
+      <ZoomboxControls {...{ nextPrevImage, setZoomValue, enableZoom }} />
       <ZoomboxZoom zoom={zoom} />
       {/* <div className="test"></div> */}
     </div>

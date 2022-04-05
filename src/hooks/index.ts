@@ -7,10 +7,11 @@ export const useKeyboardAndMouse = (
   enableKeyboardNavigation: boolean,
   isActive: boolean,
   nextPrevImage: (move: 1 | -1) => void,
-  setZoomValue: (move?: number) => void
+  setZoomValue: (move?: number) => void,
+  enableZoom: 0 | 1 | 2
 ) => {
-  const [xPercentage, setXPercentage] = useState('0');
-  const [yPercentage, setYPercentage] = useState('0');
+  const [xPercentage, setXPercentage] = useState('50');
+  const [yPercentage, setYPercentage] = useState('50');
   const handleKeyPress = (e: any) => {
     if (isActive) {
       switch (e.keyCode) {
@@ -21,10 +22,10 @@ export const useKeyboardAndMouse = (
           nextPrevImage(1);
           break;
         case 38:
-          setZoomValue(1);
+          enableZoom && setZoomValue(1);
           break;
         case 40:
-          setZoomValue(-1);
+          enableZoom && setZoomValue(-1);
           break;
       }
     }
@@ -32,11 +33,13 @@ export const useKeyboardAndMouse = (
 
   const handleScroll = (e: any) => {
     const { deltaY, clientX, clientY } = e;
-    const { innerHeight, innerWidth } = window;
-    const xPercentage = ((clientX / innerWidth) * 100).toFixed(2);
-    const yPercentage = ((clientY / innerHeight) * 100).toFixed(2);
-    setXPercentage(xPercentage);
-    setYPercentage(yPercentage);
+    if (enableZoom === 2) {
+      const { innerHeight, innerWidth } = window;
+      const xPercentage = ((clientX / innerWidth) * 100).toFixed(2);
+      const yPercentage = ((clientY / innerHeight) * 100).toFixed(2);
+      setXPercentage(xPercentage);
+      setYPercentage(yPercentage);
+    }
     if (deltaY) {
       setZoomValue(deltaY > 0 ? -1 : 1);
     } else {
@@ -47,14 +50,14 @@ export const useKeyboardAndMouse = (
     if (enableKeyboardNavigation) {
       window.addEventListener('keydown', handleKeyPress);
       if (zoomboxElement.current) {
-        zoomboxElement.current.addEventListener('wheel', handleScroll);
+        enableZoom && zoomboxElement.current.addEventListener('wheel', handleScroll);
       }
     }
     return () => {
       if (enableKeyboardNavigation) {
         window.removeEventListener('keydown', handleKeyPress);
         if (zoomboxElement.current) {
-          zoomboxElement.current.removeEventListener('wheel', handleScroll);
+          enableZoom && zoomboxElement.current.removeEventListener('wheel', handleScroll);
         }
       }
     };
@@ -74,6 +77,9 @@ export const useNavigation = (images: Images, selectedIndex: number) => {
 
   useEffect(() => {
     setSelectedImage(images[selectedIndex]);
+    return () => {
+      setZoom(DEFAULT_ZOOM);
+    };
   }, [selectedIndex]);
 
   const nextPrevImage = (move: number = 1 | -1) => {

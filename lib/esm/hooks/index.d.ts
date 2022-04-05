@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import { Image, Images } from '../types';
-export declare const useKeyboardAndMouse: (zoomboxElement: React.MutableRefObject<null> | any, enableKeyboardNavigation: boolean, isActive: boolean, nextPrevImage: (move: 1 | -1) => void, setZoomValue: (move?: number | undefined) => void) => {
+export declare const useKeyboardAndMouse: (zoomboxElement: React.MutableRefObject<null> | any, enableKeyboardNavigation: boolean, isActive: boolean, nextPrevImage: (move: 1 | -1) => void, setZoomValue: (move?: number | undefined) => void, enableZoom: 0 | 1 | 2) => {
     xPercentage: string;
     yPercentage: string;
 };
