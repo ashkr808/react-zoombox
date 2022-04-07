@@ -33,15 +33,23 @@ export const useKeyboardAndMouse = (
 
   const handleScroll = (e: any) => {
     const { deltaY, clientX, clientY } = e;
+    let xPercentage = '';
+    let yPercentage = '';
     if (enableZoom === 2) {
       const { innerHeight, innerWidth } = window;
-      const xPercentage = ((clientX / innerWidth) * 100).toFixed(2);
-      const yPercentage = ((clientY / innerHeight) * 100).toFixed(2);
-      setXPercentage(xPercentage);
-      setYPercentage(yPercentage);
+      xPercentage = ((clientX / innerWidth) * 100).toFixed(2);
+      yPercentage = ((clientY / innerHeight) * 100).toFixed(2);
     }
     if (deltaY) {
-      setZoomValue(deltaY > 0 ? -1 : 1);
+      if (deltaY > 0) {
+        setXPercentage('50');
+        setYPercentage('50');
+        setZoomValue(-1);
+      } else {
+        setXPercentage(xPercentage);
+        setYPercentage(yPercentage);
+        setZoomValue(1);
+      }
     } else {
       throw 'deltaY is not supported for wheelevent';
     }

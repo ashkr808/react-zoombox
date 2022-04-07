@@ -16,9 +16,11 @@ type ZoomboxProps = {
   setActive?: React.Dispatch<React.SetStateAction<boolean>>;
   selectedImage?: number;
   zIndex?: number;
-  enableKeyboadNavigation?: boolean;
+  enableKeyboardMouseControls?: boolean;
   maskClosable?: boolean;
+  maskOpacity?: number;
   enableZoom?: 0 | 1 | 2;
+  closable?: boolean;
 };
 
 const Zoombox = (props: ZoomboxProps) => {
@@ -28,16 +30,18 @@ const Zoombox = (props: ZoomboxProps) => {
     setActive,
     selectedImage: selectedIndex = 0,
     zIndex = 10000,
-    enableKeyboadNavigation = false,
-    maskClosable = true,
-    enableZoom = 0
+    enableKeyboardMouseControls = true,
+    maskClosable = false,
+    enableZoom = 2,
+    closable = true,
+    maskOpacity = 0.8
   } = props;
   const { selectedImage, setSelectedImage, nextPrevImage, setTranslateX, translateX, selectedImageIndex, zoom, setZoomValue, setZoom } = useNavigation(
     images,
     selectedIndex
   );
   const zoomboxElement = useRef(null);
-  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboadNavigation, active, nextPrevImage, setZoomValue, enableZoom);
+  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboardMouseControls, active, nextPrevImage, setZoomValue, enableZoom);
 
   const handleClose = () => {
     setActive && setActive(false);
@@ -45,12 +49,12 @@ const Zoombox = (props: ZoomboxProps) => {
 
   return active ? (
     <div ref={zoomboxElement} className="zoombox" style={{ zIndex: zIndex }}>
-      <ZoomboxMask onClick={() => maskClosable && handleClose()} />
+      <ZoomboxMask onClick={() => maskClosable && handleClose()} maskOpacity={maskOpacity} />
       <ZoomboxHeader />
       <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} zoom={zoom} {...{ xPercentage, yPercentage }} />
       <ZoomboxCaption text={selectedImage.caption} />
       <ZoomBoxFooter {...{ setZoom, images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
-      <ZoomboxControls {...{ nextPrevImage, setZoomValue, enableZoom }} />
+      <ZoomboxControls {...{ nextPrevImage, setZoomValue, enableZoom, closable, handleClose }} />
       <ZoomboxZoom zoom={zoom} />
       {/* <div className="test"></div> */}
     </div>

@@ -1,17 +1,20 @@
 import React from 'react';
 import { ZoomboxIcon } from './Icons/ZoomboxIcon';
-import { LeftIcon, RightIcon, ZoomInIcon, ZoomOutIcon } from '../Icons';
+import { CloseIcon, LeftIcon, RightIcon, ZoomInIcon, ZoomOutIcon } from '../Icons';
 
 type ZoomboxControlsProps = {
   nextPrevImage: (move: 1 | -1) => void;
   setZoomValue: (move?: number) => void;
   enableZoom: 0 | 1 | 2;
+  closable: boolean;
+  handleClose: () => void;
 };
 
 export const ZoomboxControls = (props: ZoomboxControlsProps) => {
-  const { nextPrevImage, setZoomValue, enableZoom } = props;
+  const { nextPrevImage, setZoomValue, enableZoom, closable, handleClose } = props;
   return (
     <div>
+      {closable && <ZoomboxIcon className="ZoomboxCloseIcon" onClick={() => handleClose()} icon={CloseIcon} />}
       <ZoomboxIcon className="ZoomboxLeftIcon" onClick={() => nextPrevImage(-1)} icon={LeftIcon} />
       <ZoomboxIcon className="ZoomboxRightIcon" onClick={() => nextPrevImage(1)} icon={RightIcon} />
       {enableZoom !== 0 && (

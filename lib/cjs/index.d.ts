@@ -7,9 +7,11 @@ declare type ZoomboxProps = {
     setActive?: React.Dispatch<React.SetStateAction<boolean>>;
     selectedImage?: number;
     zIndex?: number;
-    enableKeyboadNavigation?: boolean;
+    enableKeyboardMouseControls?: boolean;
     maskClosable?: boolean;
+    maskOpacity?: number;
     enableZoom?: 0 | 1 | 2;
+    closable?: boolean;
 };
 declare const Zoombox: (props: ZoomboxProps) => JSX.Element | null;
 export default Zoombox;
