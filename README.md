@@ -80,4 +80,3 @@ export default App;
 ## License
 
 MIT
-images
