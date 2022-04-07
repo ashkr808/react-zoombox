@@ -25,7 +25,7 @@ npm i zoombox
 
 ```javascript
 import React, { useState } from "react";
-import Zoombox from "zoombox-test";
+import Zoombox from "zoombox";
 
 const App = () => {
   const [active, setActive] = useState(false);
