@@ -1,12 +1,15 @@
-# ZoomBox
+![alt text](https://worldsofashishpatel.com/projects/docs/zoombox--an-interactive-and-feature-rich-vanilla-javascript-image-viewer-plugin-for-developers/images/zoombox_logo.png)
 
 ### An interactive image viewer library for react.
 
 Zoombox is a lightweight library for adding an intreratcive image viewer into your react app.
+## Demo
+[Click Here](https://worldsofashishpatel.com/projects/zoombox/)
 
 ## Features
 
 - Caption in images.
+- Area specific zoom based on cursor position.
 - Image preview for next and previuos image.
 - Control over the behaviour.
 - Mobile Responsive
