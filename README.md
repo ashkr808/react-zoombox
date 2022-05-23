@@ -5,7 +5,7 @@
 Zoombox is a lightweight library for adding an intreratcive image viewer into your react app.
 ## Demo
 [Click here to try](https://worldsofashishpatel.com/projects/zoombox/)
-![Alt Text](https://worldsofashishpatel.com/assets/zoombox_demo.gif)
+![](https://worldsofashishpatel.com/assets/zoombox_demo.gif?raw=true)
 
 ## Features
 
