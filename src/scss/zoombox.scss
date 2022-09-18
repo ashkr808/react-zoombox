@@ -43,6 +43,7 @@
   right: 0;
   transition: 0.4s;
   width: fit-content;
+  display: flex;
   img {
     object-fit: cover;
     margin: 0 5px;
@@ -66,9 +67,10 @@
   position: absolute;
   bottom: 120px;
   left: 50%;
+  text-align: center;
   transform: translate(-50%);
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   width: fit-content;
   text-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.5);
 }
@@ -89,8 +91,10 @@
 .ZoomboxLeftIcon {
   left: $leftRightMarginForIcons;
   bottom: 5px;
+  padding: 10px;
 }
 .ZoomboxRightIcon {
+  padding: 10px;
   right: $leftRightMarginForIcons;
   bottom: 5px;
 }

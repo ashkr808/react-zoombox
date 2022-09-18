@@ -6,14 +6,14 @@ import ZoomboxHeader from './components/ZoomboxHeader';
 import { ZoomboxImage } from './components/ZoomboxImage';
 import { ZoomboxMask } from './components/ZoomboxMask';
 import { ZoomboxZoom } from './components/ZoomboxZoom';
-import { useKeyboardAndMouse, useNavigation } from './hooks';
+import { useImages, useKeyboardAndMouse, uselockBodyScroll, useNavigation } from './hooks';
 import './scss/zoombox.scss';
 import { Images } from './types';
 
 type ZoomboxProps = {
-  images: Images;
+  images?: Images;
   active: boolean;
-  setActive?: React.Dispatch<React.SetStateAction<boolean>>;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
   selectedImage?: number;
   zIndex?: number;
   enableKeyboardMouseControls?: boolean;
@@ -21,6 +21,11 @@ type ZoomboxProps = {
   maskOpacity?: number;
   enableZoom?: 0 | 1 | 2;
   closable?: boolean;
+  containerRef?: React.MutableRefObject<HTMLElement | null>;
+  lockBodyScroll?: boolean;
+  enableImageDragBeta?: boolean;
+  dbClickToZoom?: boolean;
+  hideImagePreview?: boolean;
 };
 
 const Zoombox = (props: ZoomboxProps) => {
@@ -34,26 +39,40 @@ const Zoombox = (props: ZoomboxProps) => {
     maskClosable = false,
     enableZoom = 2,
     closable = true,
-    maskOpacity = 0.8
+    maskOpacity = 0.8,
+    containerRef,
+    lockBodyScroll = false,
+    enableImageDragBeta = false,
+    dbClickToZoom = true,
+    hideImagePreview = false
   } = props;
-  const { selectedImage, setSelectedImage, nextPrevImage, setTranslateX, translateX, selectedImageIndex, zoom, setZoomValue, setZoom } = useNavigation(
-    images,
-    selectedIndex
+
+  uselockBodyScroll(active, lockBodyScroll);
+  const { zoomboxImages, selectedImage, setSelectedImage, zoom, setZoom } = useImages(selectedIndex, images, setActive, containerRef);
+  const { nextPrevImage, setTranslateX, translateX, selectedImageIndex, setZoomValue } = useNavigation(
+    zoomboxImages,
+    selectedImage,
+    setSelectedImage,
+    selectedIndex,
+    zoom,
+    setZoom
   );
   const zoomboxElement = useRef(null);
-  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboardMouseControls, active, nextPrevImage, setZoomValue, enableZoom);
+  const { xPercentage, yPercentage } = useKeyboardAndMouse(zoomboxElement, enableKeyboardMouseControls, active, nextPrevImage, setZoomValue, zoom, enableZoom);
 
   const handleClose = () => {
     setActive && setActive(false);
   };
 
-  return active ? (
+  return active && selectedImage ? (
     <div ref={zoomboxElement} className="zoombox" style={{ zIndex: zIndex }}>
       <ZoomboxMask onClick={() => maskClosable && handleClose()} maskOpacity={maskOpacity} />
       <ZoomboxHeader />
-      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} zoom={zoom} {...{ xPercentage, yPercentage }} />
+      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} {...{ xPercentage, yPercentage, setZoom, zoom, enableImageDragBeta, dbClickToZoom }} />
       <ZoomboxCaption text={selectedImage.caption} />
-      <ZoomBoxFooter {...{ setZoom, images, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
+      {!hideImagePreview && (
+        <ZoomBoxFooter {...{ setZoom, images: zoomboxImages, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
+      )}
       <ZoomboxControls {...{ nextPrevImage, setZoomValue, enableZoom, closable, handleClose }} />
       <ZoomboxZoom zoom={zoom} />
       {/* <div className="test"></div> */}
