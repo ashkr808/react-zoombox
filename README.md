@@ -6,7 +6,7 @@ Zoombox is a lightweight library for adding an intreratcive image viewer into yo
 ## Demo
 [Click here to try live demo](https://worldsofashishpatel.com/projects/zoombox/)
 
-<img src="https://worldsofashishpatel.com/assets/zoombox_demo.gif?raw=true" height="200">
+<img alt="demo gif" src="https://github.com/thewebmonk/woapv3/blob/master/static/assets/zoombox_demo.gif?raw=true" height="200">
 
 ## Features
 
@@ -130,11 +130,12 @@ export default App;
 |`lockBodyScroll` | boolean | false | locks body from scrolling while zoombox is open
 |`maskOpacity` | number | 0.8 | sets the opacity of background mask
 |`selectedImage`| number | 0 | load the image at given index when zoombox gets opened
-|`enableImageDragBeta`| boolean | false | It is in `Beta` mode so might not be perfect to use, this will allow user to drag the active image in zoombox and see the different parts of it while zoomed in.
+|`showCredits` | boolean | false | shows "Image preview powered by Zoombox" in the corner, just in case if you wish to attribute zoombox.
+|`enableImageDragBeta`| boolean | false | It is in `Beta` mode so might not be perfect to use, When zoom is more than 150% then this will allow user to drag the active image in zoombox and see the different parts of it while zoomed in.
  
 
 ## License
-MIT
+Zoombox is licensed under the [MIT](https://github.com/thewebmonk/react-zoombox/blob/master/LICENSE) License.
 
 ## Support
 Zoombox is free to use and always will be, however if you wish to support you can always buy me a coffee !

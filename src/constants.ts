@@ -10,3 +10,4 @@ export const MAX_ZOOM = 3; // 3 * 100%
 export const MIN_ZOOM = 0.2; // 0.2 * 100%
 export const ZOOM_STEP = 0.1; // 0.1 * 100%
 export const DEFAULT_ZOOM = 1; // 1 * 100%
+export const ENABLE_DRAG_AT_ZOOM = 1.5;

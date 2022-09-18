@@ -6,8 +6,8 @@ declare type ZoomboxImageProps = {
     xPercentage: string;
     yPercentage: string;
     setZoom: React.Dispatch<React.SetStateAction<number>>;
-    enableImageDragBeta?: boolean;
+    enableImageDrag?: boolean;
     dbClickToZoom?: boolean;
 };
-export declare const ZoomboxImage: ({ src, alt, zoom, xPercentage, yPercentage, setZoom, enableImageDragBeta, dbClickToZoom }: ZoomboxImageProps) => JSX.Element;
+export declare const ZoomboxImage: ({ src, alt, zoom, xPercentage, yPercentage, setZoom, enableImageDrag, dbClickToZoom }: ZoomboxImageProps) => JSX.Element;
 export {};

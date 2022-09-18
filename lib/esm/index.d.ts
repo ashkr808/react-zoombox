@@ -17,6 +17,7 @@ declare type ZoomboxProps = {
     enableImageDragBeta?: boolean;
     dbClickToZoom?: boolean;
     hideImagePreview?: boolean;
+    showCredits?: boolean;
 };
 declare const Zoombox: (props: ZoomboxProps) => JSX.Element | null;
 export default Zoombox;

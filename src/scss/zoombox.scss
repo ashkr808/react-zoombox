@@ -90,13 +90,11 @@
 
 .ZoomboxLeftIcon {
   left: $leftRightMarginForIcons;
-  bottom: 5px;
-  padding: 10px;
+  bottom: 15px;
 }
 .ZoomboxRightIcon {
-  padding: 10px;
   right: $leftRightMarginForIcons;
-  bottom: 5px;
+  bottom: 15px;
 }
 .ZoomboxZoomInIcon {
   right: $leftRightMarginForIcons;
@@ -110,6 +108,19 @@
   right: $leftRightMarginForIcons;
   top: $leftRightMarginForIcons;
 }
+
+.ZoomboxCredits {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  color: rgba($color: #ffffff, $alpha: 0.8);
+  opacity: 0.8;
+  font-size: 10px;
+  a {
+    color: #5e9eff;
+  }
+}
+
 .ZoomboxZoom {
   position: absolute;
   top: 50%;

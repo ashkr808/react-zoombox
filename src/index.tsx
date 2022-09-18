@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { ZoomboxCaption } from './components/ZoomboxCaption';
 import { ZoomboxControls } from './components/ZoomboxControls';
+import ZoomboxCredits from './components/ZoomboxCredits';
 import ZoomBoxFooter from './components/ZoomBoxFooter';
 import ZoomboxHeader from './components/ZoomboxHeader';
 import { ZoomboxImage } from './components/ZoomboxImage';
@@ -26,6 +27,7 @@ type ZoomboxProps = {
   enableImageDragBeta?: boolean;
   dbClickToZoom?: boolean;
   hideImagePreview?: boolean;
+  showCredits?: boolean;
 };
 
 const Zoombox = (props: ZoomboxProps) => {
@@ -42,9 +44,10 @@ const Zoombox = (props: ZoomboxProps) => {
     maskOpacity = 0.8,
     containerRef,
     lockBodyScroll = false,
-    enableImageDragBeta = false,
+    enableImageDragBeta: enableImageDrag = false,
     dbClickToZoom = true,
-    hideImagePreview = false
+    hideImagePreview = false,
+    showCredits = false
   } = props;
 
   uselockBodyScroll(active, lockBodyScroll);
@@ -68,11 +71,12 @@ const Zoombox = (props: ZoomboxProps) => {
     <div ref={zoomboxElement} className="zoombox" style={{ zIndex: zIndex }}>
       <ZoomboxMask onClick={() => maskClosable && handleClose()} maskOpacity={maskOpacity} />
       <ZoomboxHeader />
-      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} {...{ xPercentage, yPercentage, setZoom, zoom, enableImageDragBeta, dbClickToZoom }} />
+      <ZoomboxImage src={selectedImage.src} alt={selectedImage.caption} {...{ xPercentage, yPercentage, setZoom, zoom, enableImageDrag, dbClickToZoom }} />
       <ZoomboxCaption text={selectedImage.caption} />
       {!hideImagePreview && (
         <ZoomBoxFooter {...{ setZoom, images: zoomboxImages, setSelectedImage, selectedImage, selectedIndex, translateX, setTranslateX, selectedImageIndex }} />
       )}
+      {showCredits && <ZoomboxCredits />}
       <ZoomboxControls {...{ nextPrevImage, setZoomValue, enableZoom, closable, handleClose }} />
       <ZoomboxZoom zoom={zoom} />
       {/* <div className="test"></div> */}
